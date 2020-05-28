@@ -13,16 +13,12 @@ var result []string
 var phoneEncoding = []string{"0", "1", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"}
 
 func alreadyProcessed(input []string) bool {
-	var cpy []string
 	found := false
-
-	cpy = append(cpy, input...)
 	elementTosearch := strings.Join(input, "")
 
-	for _, val := range cpy {
+	for _, val := range result {
 		if val == elementTosearch {
 			found = true
-			return found
 		}
 	}
 
@@ -72,7 +68,7 @@ func getCombinations(input []string) {
 
 func main() {
 
-	phoneNo := "23"
+	phoneNo := "2354389"
 	phonenoToArray := strings.Split(phoneNo, "")
 	var encodedVal []string
 	var at int
