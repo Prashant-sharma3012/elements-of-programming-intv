@@ -1,5 +1,7 @@
 package bstree
 
+import "errors"
+
 type BSTreeInt struct {
 	val   int
 	left  *BSTreeInt
@@ -54,8 +56,41 @@ func find(val int, b *BSTreeInt) bool {
 	return false
 }
 
-func removeFromTree(val int, b *BSTreeInt) {
+func getNode(val int, node *BSTreeInt, parent *BSTreeInt) (*BSTreeInt, *BSTreeInt) {
+	if node.val == val {
+		return node, parent
+	}
 
+	if node.val > val {
+		return getNode(val, node.left, node)
+	}
+
+	return getNode(val, node.right, node)
+}
+
+func getInOrderSuccesor(val int, root *BSTreeInt) (*BSTreeInt, error) {
+	inOrderArr := root.InOrder()
+	for _, k := range inOrderArr {
+		if k == val {
+			node, _ := getNode(val, root, root)
+			return node, nil
+		}
+	}
+
+	return nil, errors.New("Not Found")
+}
+
+func removeFromTree(val int, b *BSTreeInt) {
+	node, _ := getNode(val, b, b)
+
+	successor, err := getInOrderSuccesor(val, b)
+	if err != nil {
+		b = node.left
+		return
+	}
+
+	successor.left = node.left
+	successor.right = node.right
 }
 
 func (b *BSTreeInt) Insert(val int) {
@@ -66,8 +101,13 @@ func (b *BSTreeInt) Has(val int) bool {
 	return find(val, b)
 }
 
-func (b *BSTreeInt) Remove(val int) {
+func (b *BSTreeInt) GetNodeByVal(val int) *BSTreeInt {
+	node, _ := getNode(val, b, b)
+	return node
+}
 
+func (b *BSTreeInt) Remove(val int) {
+	removeFromTree(val, b)
 }
 
 var inOrder []int
