@@ -98,14 +98,14 @@ func traversePreOrder(b *BSTreeInt) []int {
 	preOrder = append(preOrder, b.val)
 
 	if b.left != nil {
-		traverseInOrder(b.left)
+		traversePreOrder(b.left)
 	}
 
 	if b.right != nil {
-		traverseInOrder(b.right)
+		traversePreOrder(b.right)
 	}
 
-	return inOrder
+	return preOrder
 }
 
 // Root Left Right
@@ -117,16 +117,16 @@ var postOrder []int
 
 func traversePostOrder(b *BSTreeInt) []int {
 	if b.left != nil {
-		traverseInOrder(b.left)
+		traversePostOrder(b.left)
 	}
 
 	if b.right != nil {
-		traverseInOrder(b.right)
+		traversePostOrder(b.right)
 	}
 
 	postOrder = append(postOrder, b.val)
 
-	return inOrder
+	return postOrder
 }
 
 // Left Right Root
