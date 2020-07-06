@@ -1,6 +1,9 @@
 package bstree
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type BSTreeInt struct {
 	val   int
@@ -70,9 +73,9 @@ func getNode(val int, node *BSTreeInt, parent *BSTreeInt) (*BSTreeInt, *BSTreeIn
 
 func getInOrderSuccesor(val int, root *BSTreeInt) (*BSTreeInt, error) {
 	inOrderArr := root.InOrder()
-	for _, k := range inOrderArr {
+	for indx, k := range inOrderArr {
 		if k == val {
-			node, _ := getNode(val, root, root)
+			node, _ := getNode(inOrderArr[indx+1], root, root)
 			return node, nil
 		}
 	}
@@ -81,12 +84,54 @@ func getInOrderSuccesor(val int, root *BSTreeInt) (*BSTreeInt, error) {
 }
 
 func removeFromTree(val int, b *BSTreeInt) {
-	node, _ := getNode(val, b, b)
+	node, parent := getNode(val, b, b)
 
+	// check if its a leaf node
+	if node.left == nil && node.right == nil {
+		fmt.Println("Is leaf Node")
+		if parent.left.val == node.val {
+			parent.left = nil
+			return
+		}
+		parent.right = nil
+		return
+	}
+
+	// if it has one child
+	if (node.left == nil && node.right != nil) ||
+		(node.left != nil && node.right == nil) {
+		var temp *BSTreeInt
+		if node.left != nil {
+			temp = node.left
+		} else {
+			temp = node.right
+		}
+
+		fmt.Println(temp)
+
+		if parent.left.val == node.val {
+			parent.left = temp
+			return
+		}
+		parent.right = temp
+		return
+
+	}
+
+	// if node has two children
 	successor, err := getInOrderSuccesor(val, b)
 	if err != nil {
 		b = node.left
 		return
+	}
+
+	// if node is not root
+	if parent.val != node.val {
+		if parent.left.val == node.val {
+			parent.left = successor
+			return
+		}
+		parent.right = successor
 	}
 
 	successor.left = node.left
@@ -128,6 +173,7 @@ func traverseInOrder(b *BSTreeInt) []int {
 
 // Left Root Right
 func (b *BSTreeInt) InOrder() []int {
+	inOrder = []int{}
 	return traverseInOrder(b)
 }
 
@@ -175,5 +221,9 @@ func (b *BSTreeInt) PostOrder() []int {
 }
 
 func (b *BSTreeInt) LevelOrder() {
+
+}
+
+func CreateTreeFromInorder(arr []int) {
 
 }

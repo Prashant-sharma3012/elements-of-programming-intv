@@ -16,7 +16,11 @@ func main() {
 		t.Insert(val)
 	}
 
-	fmt.Println(t)
+	fmt.Println(t.InOrder())
+	fmt.Println(t.PostOrder())
+	fmt.Println(t.PreOrder())
+
+	t.Remove(20)
 
 	fmt.Println(t.InOrder())
 	fmt.Println(t.PostOrder())
