@@ -6,69 +6,69 @@ import (
 )
 
 type BSTreeInt struct {
-	val   int
-	left  *BSTreeInt
-	right *BSTreeInt
+	Val   int
+	Left  *BSTreeInt
+	Right *BSTreeInt
 }
 
 func GetBTreeInt(val int) *BSTreeInt {
 	return &BSTreeInt{
-		val:   val,
-		left:  nil,
-		right: nil,
+		Val:   val,
+		Left:  nil,
+		Right: nil,
 	}
 }
 
 func addToTree(val int, b *BSTreeInt) {
-	if b.val > val {
-		if b.left == nil {
-			b.left = &BSTreeInt{
-				val:   val,
-				left:  nil,
-				right: nil,
+	if b.Val > val {
+		if b.Left == nil {
+			b.Left = &BSTreeInt{
+				Val:   val,
+				Left:  nil,
+				Right: nil,
 			}
 			return
 		}
-		addToTree(val, b.left)
+		addToTree(val, b.Left)
 		return
 	} else {
-		if b.right == nil {
-			b.right = &BSTreeInt{
-				val:   val,
-				left:  nil,
-				right: nil,
+		if b.Right == nil {
+			b.Right = &BSTreeInt{
+				Val:   val,
+				Left:  nil,
+				Right: nil,
 			}
 			return
 		}
 
-		addToTree(val, b.right)
+		addToTree(val, b.Right)
 		return
 	}
 }
 
 func find(val int, b *BSTreeInt) bool {
-	if b.val == val {
+	if b.Val == val {
 		return true
 	} else {
-		if b.val > val {
-			return find(val, b.left)
+		if b.Val > val {
+			return find(val, b.Left)
 		}
-		return find(val, b.right)
+		return find(val, b.Right)
 	}
 
 	return false
 }
 
 func getNode(val int, node *BSTreeInt, parent *BSTreeInt) (*BSTreeInt, *BSTreeInt) {
-	if node.val == val {
+	if node.Val == val {
 		return node, parent
 	}
 
-	if node.val > val {
-		return getNode(val, node.left, node)
+	if node.Val > val {
+		return getNode(val, node.Left, node)
 	}
 
-	return getNode(val, node.right, node)
+	return getNode(val, node.Right, node)
 }
 
 func getInOrderSuccesor(val int, root *BSTreeInt) (*BSTreeInt, error) {
@@ -87,33 +87,33 @@ func removeFromTree(val int, b *BSTreeInt) {
 	node, parent := getNode(val, b, b)
 
 	// check if its a leaf node
-	if node.left == nil && node.right == nil {
+	if node.Left == nil && node.Right == nil {
 		fmt.Println("Is leaf Node")
-		if parent.left.val == node.val {
-			parent.left = nil
+		if parent.Left.Val == node.Val {
+			parent.Left = nil
 			return
 		}
-		parent.right = nil
+		parent.Right = nil
 		return
 	}
 
 	// if it has one child
-	if (node.left == nil && node.right != nil) ||
-		(node.left != nil && node.right == nil) {
+	if (node.Left == nil && node.Right != nil) ||
+		(node.Left != nil && node.Right == nil) {
 		var temp *BSTreeInt
-		if node.left != nil {
-			temp = node.left
+		if node.Left != nil {
+			temp = node.Left
 		} else {
-			temp = node.right
+			temp = node.Right
 		}
 
 		fmt.Println(temp)
 
-		if parent.left.val == node.val {
-			parent.left = temp
+		if parent.Left.Val == node.Val {
+			parent.Left = temp
 			return
 		}
-		parent.right = temp
+		parent.Right = temp
 		return
 
 	}
@@ -121,21 +121,21 @@ func removeFromTree(val int, b *BSTreeInt) {
 	// if node has two children
 	successor, err := getInOrderSuccesor(val, b)
 	if err != nil {
-		b = node.left
+		b = node.Left
 		return
 	}
 
 	// if node is not root
-	if parent.val != node.val {
-		if parent.left.val == node.val {
-			parent.left = successor
+	if parent.Val != node.Val {
+		if parent.Left.Val == node.Val {
+			parent.Left = successor
 			return
 		}
-		parent.right = successor
+		parent.Right = successor
 	}
 
-	successor.left = node.left
-	successor.right = node.right
+	successor.Left = node.Left
+	successor.Right = node.Right
 }
 
 func (b *BSTreeInt) Insert(val int) {
@@ -158,14 +158,14 @@ func (b *BSTreeInt) Remove(val int) {
 var inOrder []int
 
 func traverseInOrder(b *BSTreeInt) []int {
-	if b.left != nil {
-		traverseInOrder(b.left)
+	if b.Left != nil {
+		traverseInOrder(b.Left)
 	}
 
-	inOrder = append(inOrder, b.val)
+	inOrder = append(inOrder, b.Val)
 
-	if b.right != nil {
-		traverseInOrder(b.right)
+	if b.Right != nil {
+		traverseInOrder(b.Right)
 	}
 
 	return inOrder
@@ -181,14 +181,14 @@ var preOrder []int
 
 func traversePreOrder(b *BSTreeInt) []int {
 
-	preOrder = append(preOrder, b.val)
+	preOrder = append(preOrder, b.Val)
 
-	if b.left != nil {
-		traversePreOrder(b.left)
+	if b.Left != nil {
+		traversePreOrder(b.Left)
 	}
 
-	if b.right != nil {
-		traversePreOrder(b.right)
+	if b.Right != nil {
+		traversePreOrder(b.Right)
 	}
 
 	return preOrder
@@ -202,15 +202,15 @@ func (b *BSTreeInt) PreOrder() []int {
 var postOrder []int
 
 func traversePostOrder(b *BSTreeInt) []int {
-	if b.left != nil {
-		traversePostOrder(b.left)
+	if b.Left != nil {
+		traversePostOrder(b.Left)
 	}
 
-	if b.right != nil {
-		traversePostOrder(b.right)
+	if b.Right != nil {
+		traversePostOrder(b.Right)
 	}
 
-	postOrder = append(postOrder, b.val)
+	postOrder = append(postOrder, b.Val)
 
 	return postOrder
 }
