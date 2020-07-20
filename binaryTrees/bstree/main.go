@@ -6,16 +6,18 @@ import (
 )
 
 type BSTreeInt struct {
-	Val   int
-	Left  *BSTreeInt
-	Right *BSTreeInt
+	Val          int
+	Left         *BSTreeInt
+	Right        *BSTreeInt
+	RightSibling *BSTreeInt
 }
 
 func GetBTreeInt(val int) *BSTreeInt {
 	return &BSTreeInt{
-		Val:   val,
-		Left:  nil,
-		Right: nil,
+		Val:          val,
+		Left:         nil,
+		Right:        nil,
+		RightSibling: nil,
 	}
 }
 
